@@ -155,12 +155,12 @@ export async function recordAction(
   action: "approve" | "hold" | "escalate" | "note",
   note: string | null
 ) {
-  const statusMap: Record<string, string | null> = {
+  const statusMap = {
     approve: "approved",
     hold: "hold",
     escalate: "escalated",
     note: null,
-  };
+  } as const;
   const newStatus = statusMap[action];
   if (newStatus) {
     await supabase.from("alerts").update({ status: newStatus }).eq("id", alertId);
