@@ -14,16 +14,198 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      alert_actions: {
+        Row: {
+          action: Database["public"]["Enums"]["action_type"]
+          alert_id: string
+          created_at: string
+          id: string
+          note: string | null
+          user_id: string
+        }
+        Insert: {
+          action: Database["public"]["Enums"]["action_type"]
+          alert_id: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          user_id: string
+        }
+        Update: {
+          action?: Database["public"]["Enums"]["action_type"]
+          alert_id?: string
+          created_at?: string
+          id?: string
+          note?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alert_actions_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "alerts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      alerts: {
+        Row: {
+          ai_consensus: string | null
+          category: string | null
+          confidence_score: number
+          created_at: string
+          description: string | null
+          eta_minutes: number | null
+          hotspot_id: string
+          id: string
+          lat: number | null
+          lng: number | null
+          region: string | null
+          severity: Database["public"]["Enums"]["alert_severity"]
+          status: Database["public"]["Enums"]["alert_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          ai_consensus?: string | null
+          category?: string | null
+          confidence_score?: number
+          created_at?: string
+          description?: string | null
+          eta_minutes?: number | null
+          hotspot_id: string
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          region?: string | null
+          severity?: Database["public"]["Enums"]["alert_severity"]
+          status?: Database["public"]["Enums"]["alert_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          ai_consensus?: string | null
+          category?: string | null
+          confidence_score?: number
+          created_at?: string
+          description?: string | null
+          eta_minutes?: number | null
+          hotspot_id?: string
+          id?: string
+          lat?: number | null
+          lng?: number | null
+          region?: string | null
+          severity?: Database["public"]["Enums"]["alert_severity"]
+          status?: Database["public"]["Enums"]["alert_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          callsign: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+        }
+        Insert: {
+          callsign?: string | null
+          created_at?: string
+          display_name?: string | null
+          id: string
+        }
+        Update: {
+          callsign?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      verification_entries: {
+        Row: {
+          alert_id: string
+          created_at: string
+          details: string | null
+          id: string
+          layer: Database["public"]["Enums"]["verify_layer"]
+          score: number
+          source: string
+          status: Database["public"]["Enums"]["verify_status"]
+        }
+        Insert: {
+          alert_id: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          layer: Database["public"]["Enums"]["verify_layer"]
+          score?: number
+          source: string
+          status?: Database["public"]["Enums"]["verify_status"]
+        }
+        Update: {
+          alert_id?: string
+          created_at?: string
+          details?: string | null
+          id?: string
+          layer?: Database["public"]["Enums"]["verify_layer"]
+          score?: number
+          source?: string
+          status?: Database["public"]["Enums"]["verify_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "verification_entries_alert_id_fkey"
+            columns: ["alert_id"]
+            isOneToOne: false
+            referencedRelation: "alerts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      action_type: "approve" | "hold" | "escalate" | "note"
+      alert_severity: "low" | "medium" | "high" | "critical"
+      alert_status: "open" | "approved" | "hold" | "escalated" | "resolved"
+      app_role: "admin" | "operator" | "viewer"
+      verify_layer: "sensor" | "ai" | "human"
+      verify_status: "pending" | "verified" | "failed" | "reviewing"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +332,13 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      action_type: ["approve", "hold", "escalate", "note"],
+      alert_severity: ["low", "medium", "high", "critical"],
+      alert_status: ["open", "approved", "hold", "escalated", "resolved"],
+      app_role: ["admin", "operator", "viewer"],
+      verify_layer: ["sensor", "ai", "human"],
+      verify_status: ["pending", "verified", "failed", "reviewing"],
+    },
   },
 } as const
