@@ -1,26 +1,41 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { TopCommandBar } from "@/components/nexus/TopCommandBar";
+import { LeftNav } from "@/components/nexus/LeftNav";
+import { WorldEngine } from "@/components/nexus/WorldEngine";
+import { RightPanel } from "@/components/nexus/RightPanel";
+import { BottomBar } from "@/components/nexus/BottomBar";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Core Nexus — Planetary Operations Command Center" },
+      {
+        name: "description",
+        content:
+          "Real-time planetary situational awareness, AI orchestration, crisis coordination, and verification transparency.",
+      },
+      { property: "og:title", content: "Core Nexus — Planetary Operations Command" },
+      {
+        property: "og:description",
+        content: "Mission-critical interface for global infrastructure, AI agents, and ethical governance.",
+      },
+    ],
+  }),
+  component: CoreNexus,
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
+function CoreNexus() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="h-screen w-screen flex flex-col overflow-hidden text-foreground">
+      <TopCommandBar />
+      <div className="flex-1 flex min-h-0">
+        <LeftNav />
+        <main className="flex-1 flex min-w-0">
+          <WorldEngine />
+          <RightPanel />
+        </main>
+      </div>
+      <BottomBar />
     </div>
   );
-}
-
-function Index() {
-  return <PlaceholderIndex />;
 }
